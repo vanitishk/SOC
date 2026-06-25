@@ -1,0 +1,1 @@
+You only need to implement q2(ffnn) from the given problem statement
