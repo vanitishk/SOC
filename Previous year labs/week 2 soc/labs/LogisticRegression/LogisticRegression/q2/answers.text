@@ -1,0 +1,24 @@
+Task B — Which type of error is more frequent? Why can accuracy be misleading?
+
+At the default threshold (τ = 0.5), false negatives (108) are far more frequent than false positives (29). This happens because logistic loss is averaged over all training points, so the ~94% majority (negative) class dominates the gradient and pulls the decision boundary toward predicting "negative" by default. Accuracy stays high (96%) even though more than 46% of sick patients are missed. A trivial "always predict negative" classifier would already score ~94% accuracy while being clinically useless, so accuracy alone cannot distinguish a clinically useful model from a useless one in this setting.
+Task C — Why is the ROC curve less sensitive to class imbalance than accuracy? Does a high AUC guarantee good performance for the minority class?
+
+TPR and FPR are each normalized within their own true class — TPR is computed only over actual positives, FPR only over actual negatives — so neither rate is inflated or deflated just because one class has far more members than the other. Accuracy, by contrast, is a single rate computed over the whole (imbalanced) sample, so it's dominated by whichever class is numerically larger.
+No, a high AUC does not guarantee good minority-class performance. AUC (0.951 here) only measures how well the model ranks positives above negatives on average across all thresholds. In deployment you must pick one specific threshold, and at that threshold recall/precision on the minority class can still be poor even with a high AUC — exactly what Task D shows: the same model (same AUC) gives very different recall/precision depending on which τ you choose.
+Task D — Threshold adjustment findings
+
+Lowering τ from 0.5 to roughly 0.155–0.255 substantially improves recall (far fewer sick patients missed) at the cost of more false positives:
+
+Youden's J (τ ≈ 0.155): Recall 0.870, Precision 0.458, FPR 0.067
+Fixed sensitivity 0.95 (τ ≈ 0.028): Recall 0.952, Precision 0.200, FPR 0.248
+Cost-minimizing, 5:1 FN:FP cost (τ ≈ 0.255): Recall 0.805, Precision 0.622, FPR 0.032 (best F1 = 0.702)
+
+The fixed-sensitivity threshold hits the 0.95 recall target required for screening but at a steep precision/FPR cost. The cost-minimizing threshold gives the best overall balance when a missed sick patient is weighted 5× as costly as a false alarm.
+Task E — Class-weighted loss vs. baseline
+
+Inverse-frequency weighting raises recall from 0.533 (baseline) to 0.879, at the cost of FPR rising from 0.008 to 0.109. This is directly comparable in effect to lowering the decision threshold, but it's achieved by reshaping the loss function itself rather than adjusting predictions after training.
+Task F — Comparing data-level strategies
+
+Most improved minority-class recall: Random undersampling (0.883), only marginally ahead of oversampling (0.879) and SMOTE (0.875) — all three land in essentially the same range.
+Largest increase in false positives: Random undersampling (FPR = 0.125), because discarding most majority-class samples removes information the model needs to draw a tight boundary around the negative class.
+Preferred method for medical screening: SMOTE gives the best precision/F1 trade-off among the data-level methods (F1 = 0.511) while keeping recall comparable to the others, since synthetic interpolation adds new, plausible minority examples rather than discarding majority data (undersampling) or just duplicating the same few positive points (oversampling, which risks overfitting). That said, in a real screening deployment the cost-minimizing threshold from Task D is arguably the most defensible overall choice, since it lets you reason directly about the real-world cost of missing a sick patient vs. ordering an unnecessary follow-up test, rather than indirectly through a resampling ratio.

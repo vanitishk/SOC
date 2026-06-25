@@ -1,0 +1,34 @@
+{
+  "timestamp": "2026-06-24_21-18-49",
+  "total_experiments": 4,
+  "experiments": [
+    {
+      "function": "rosenbrock",
+      "name": "rosenbrock",
+      "final_mse": 8.638129531333242e-05,
+      "iterations": 10000,
+      "condition_number": null
+    },
+    {
+      "function": "rotated_anisotropic",
+      "name": "sigma_very_small",
+      "final_mse": -24.738738036084627,
+      "iterations": 100000,
+      "condition_number": 1.0000000281151613
+    },
+    {
+      "function": "rotated_anisotropic",
+      "name": "sigma_max_100",
+      "final_mse": -0.20076360228633894,
+      "iterations": 55034,
+      "condition_number": 100.00000150321563
+    },
+    {
+      "function": "rotated_anisotropic",
+      "name": "sigma_all_equal",
+      "final_mse": -0.07649475326036412,
+      "iterations": 6467,
+      "condition_number": 1.0000000281151613
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Digital Image}{3}{subsection.1.1}%
+\contentsline {section}{\numberline {2}Key Concepts}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Covariance }{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Covariance Matrix}{3}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Eigenvector}{4}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Eigenfaces}{4}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Mean Face and Mean Subtraction}{4}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}Weights in Eigenface Space}{4}{subsection.2.6}%
+\contentsline {subsection}{\numberline {2.7}Euclidean Distance}{5}{subsection.2.7}%
+\contentsline {section}{\numberline {3}Dataset Description}{5}{section.3}%
+\contentsline {section}{\numberline {4}Principal Component Analysis (PCA)}{5}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Step 1: Building the Image Matrix}{5}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Step 2: Computing the Mean Face}{6}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Step 3: Mean Subtraction (Centring the Data)}{6}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Step 4: The Covariance Matrix}{6}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Step 5: Eigenvalues and Eigenvectors}{7}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Step 6: The Computational Trick}{7}{subsection.4.6}%
+\contentsline {subsection}{\numberline {4.7}Step 7: Selecting K Eigenfaces}{8}{subsection.4.7}%
+\contentsline {subsection}{\numberline {4.8}Step 8: Projecting Faces into Eigenface Space}{8}{subsection.4.8}%
+\contentsline {subsection}{\numberline {4.9}Step 9: Reconstructing Faces from Eigenfaces}{8}{subsection.4.9}%
+\contentsline {section}{\numberline {5}Implementation}{9}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Part 1: Loading the Dataset}{9}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Part 2: Building the Image Matrix $A$}{9}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Part 3: Applying PCA to Compute Eigenfaces}{10}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Part 4: Computing the Weight Matrix}{10}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Part 5: Recognising a Known Subject (Subject 39)}{11}{subsection.5.5}%
+\contentsline {subsection}{\numberline {5.6}Part 6: Recognising an Unknown Subject (Subject 40)}{11}{subsection.5.6}%
+\contentsline {section}{\numberline {6}Results}{12}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Test 1: Known Subject (Subject 39)}{12}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Test 2: Unknown Subject (Subject 40)}{12}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Overall Observations}{13}{subsection.6.3}%
+\contentsline {section}{\numberline {7}Some Insights }{13}{section.7}%
+\contentsline {section}{\numberline {8}Bonus Learning}{13}{section.8}%

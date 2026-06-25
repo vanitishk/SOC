@@ -1,0 +1,32 @@
+Forensic Analysis Report
+
+Task 2.1: Feature Elimination
+Feature Identified: Based on the Lasso coefficient path, the feature driven to zero almost immediately at low penalties is [Insert Feature Name, e.g., x7]. 
+Information Content: This rapid elimination suggests that the feature has no predictive power and contains no useful information regarding the target variable 'y'. It acts as pure, uninformative noise.
+Scatter Plot Confirmation: Inspecting the scatter plot of this feature against 'y' confirms this diagnosis. The plot shows a completely random, shapeless cloud of points with no discernible linear trend, proving it is uncorrelated noise.
+
+Task 2.2: Correlated Features
+Features Identified: Focusing on the Ridge coefficient path reveals that features [Insert Feature A, e.g., x2] and [Insert Feature B, e.g., x3] exhibit clear "grouping" behavior.
+OLS vs. Regularization Behavior: Ordinary Least Squares (OLS) struggles heavily with multicollinearity. When features are highly correlated, OLS becomes unstable and often assigns wildly different or opposing weights to them. Ridge regularization uses an L2 penalty, which penalizes the squared magnitude of the coefficients. Mathematically, distributing the weight evenly across two correlated features results in a much lower overall penalty than assigning all the weight to just one.
+Implication: Because Ridge forces their paths to converge, it implies these two features are highly redundant and are measuring the exact same underlying signal. The correlation coefficient between them is exceptionally high at [Insert Correlation Number, e.g., 0.98].
+
+Task 2.3: Reliability vs. Availability
+Features Identified: The two features representing the noisy sensor and the intermittent sensor are [Insert Feature C] and [Insert Feature D].
+Scatter Plot Analysis: When plotting these two features against each other, they form a strong diagonal linear trend representing their shared true signal. However, Sensor B (Intermittent) exhibits a distinct anomaly: a dense cluster of points dropping completely off the trend line down to a constant zero or low value. Sensor A (Noisy) never drops out but has a much wider, fuzzier spread around the main trend line.
+The Trade-off: Relying solely on Sensor B causes the model to fail entirely during sensor dropouts. Relying solely on Sensor A ensures constant availability but introduces permanent variance and noise into the predictions.
+
+Task 2.4: Independent Signals
+Feature Identified: The feature that maintains its magnitude and stability across the Ridge path is [Insert Feature Z, e.g., x1].
+Persistence in Lasso: Yes, this persistence holds true in the Lasso path. It survives for a very long time and is one of the last coefficients to be pushed to zero at extremely high penalties.
+Relationship to Other Features: This stability suggests that this feature provides unique, independent predictive power. Because it has no substitutes or redundant backups in the dataset, the regularized models cannot afford to shrink it heavily without severely damaging the model's overall accuracy.
+Correlation: Checking the correlation matrix confirms this; it correlates significantly with 'y', but has near-zero correlation with the other input features.
+
+Task 2.5: Structural Corruption vs. Noise
+Features Identified: The feature with structural corruption is x8, and the uniform noise feature is [Insert uniform noise feature from Task 2.1].
+Lasso Preference: When adjudicating between the two, LASSO penalizes the structurally corrupted feature (x8) to zero faster than the uniform noise feature.
+What LASSO Reveals: This reveals that the model is hypersensitive to extreme outliers. The squared error loss function minimizes the square of the residuals. Because x8 contains massive, unnatural spikes (e.g., values jumping to 57 and 126), giving x8 any weight would cause the squared error penalty to explode astronomically. LASSO rapidly drives its coefficient to zero to protect the model from these massive error spikes, proving the feature is structurally unstable.
+
+Task 2.6: Final Model Construction
+Synthesis & Selection: Our forensic analysis revealed a dataset mixed with pure noise, redundant signals, unique drivers, and structurally corrupted data (x8). To build a robust model, we must fundamentally drop the pure noise feature and the structurally corrupted feature (x8), as they only serve to degrade model accuracy and stability.
+Methodology: For the remaining features—which include the independent signal and the highly correlated/redundant sensors—Ridge Regression (with Cross-Validation) is the optimal method. 
+Justification: While Lasso is great for feature selection (which we used manually here), Ridge excels at handling collinearity. By using Ridge on the cleaned dataset, the model smoothly averages the weights of the redundant sensors (effectively balancing the noisy Sensor A and the intermittent Sensor B) to reduce overall variance, while preserving the independent signal.

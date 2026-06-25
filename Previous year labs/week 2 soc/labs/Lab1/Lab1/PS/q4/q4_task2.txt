@@ -1,0 +1,68 @@
+Task 2: Case Studies Analysis
+
+=========================================================
+Case A: Back to the Ordinary (Housing Dataset)
+=========================================================
+1. Baseline Comparison: 
+The results do not differ significantly. The unregularized OLS model (λ = 0) performs virtually 
+identically to the optimal Ridge and Lasso models. This dataset has low dimensionality (5 features) 
+and sufficient samples, meaning OLS is already perfectly stable. Adding regularization here introduces 
+unnecessary bias without any variance to reduce.
+
+2. Coefficient Stability (λ = 10): 
+At a high penalty of λ = 10, Ridge shrinks the coefficients by distributing small weights across all 
+features, but rarely sets them to exactly zero. Lasso, which enforces sparsity, will incorrectly 
+force true, relevant features to exactly zero due to the artificially high penalty, falsely identifying 
+them as irrelevant.
+
+=========================================================
+Case B: The Needle in the Haystack (Gene Dataset)
+=========================================================
+3 & 4. Optimal Model Selection & Coefficient Inspection: 
+The best Lasso model (e.g., at λ = 0.1) assigns massive weights to the few "True Genes", but retains 
+tiny non-zero weights for some noise genes. To completely eliminate this remaining noise, λ would 
+need to be increased further (e.g., to λ = 1.0). However, doing so would over-regularize the model, 
+severely crushing the weights of the True Genes and increasing bias. The optimal model tolerates 
+minor noise to protect the signal of the true features.
+
+5. Post-Selection Inference:
+(a) The Bias Problem: Lasso's penalty artificially "shrinks" the coefficients of the main genes, 
+biasing their estimated impact downwards.
+
+(b) The Two-Stage Method (Relaxed Lasso): Step 1 involves using Lasso to identify the non-zero 
+features (True Genes). Step 2 involves discarding all zeroed noise features and running an 
+unregularized OLS model exclusively on those identified True Genes.
+
+(c) Execution Impact: This filters out residual noise and completely eliminates the Lasso shrinkage 
+bias, yielding a better Test R^2 compared to the pure Lasso model.
+
+6. Model Interpretability: 
+Ridge regularization shrinks coefficients but does not enforce sparsity (it does not set weights to 
+exactly zero). Therefore, it would output a dense vector where every gene has a non-zero weight, 
+making it impossible to confidently isolate exactly the 3 target genes.
+
+=========================================================
+Case C: Imperfect Clones (Sensor Dataset)
+=========================================================
+1. Performance Assessment: 
+The unregularized OLS baseline yields a Test MSE of ~20.56. Regularization significantly improves 
+performance, with the best regularized model (Lasso at λ = 1.0) lowering the MSE to ~15.32, a vast 
+mathematical improvement.
+
+2. Cluster Analysis (Sensors 1–4): 
+OLS makes the coefficients highly volatile and unstable due to collinearity (high standard deviation 
+among the 4 weights). Ridge (λ = 30) successfully enforces a grouping effect, averaging the coefficients 
+of the identical sensors and resulting in a very low standard deviation among them. Lasso (λ = 1.0) 
+selects the sensors but fails to average them, assigning wildly different weights (e.g., 3.08, 1.29, 1.59, 2.65).
+
+3. Noise Rejection (Sensors 9 & 10): 
+Lasso completely zeroes out the pure noise sensors (9 and 10), perfectly identifying them. Ridge only 
+shrinks them but fails to drop them entirely.
+
+4. The Hybrid Pipeline:
+(a) Design: Step 1 (Selection) uses Lasso to flag and drop the noise sensors (Sensors 9 and 10). 
+Step 2 (Estimation) trains a Ridge regression model on the remaining 8 sensors.
+
+(b & c) Implementation & Comparison: This hybrid strategy manually removes the noise that confuses 
+Ridge, allowing Ridge to perfectly average the remaining good, correlated sensors. Consequently, 
+it significantly outperforms any standalone OLS, Ridge, or Lasso model.

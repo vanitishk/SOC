@@ -1,0 +1,6 @@
+{
+  "ols_test_mse": 8.43040704896092,
+  "best_lambda_grid": 0.21544346900318823,
+  "best_lambda_random": 0.20560718971439246,
+  "best_ridge_test_mse": 8.282433715673996
+}
